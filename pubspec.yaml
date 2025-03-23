@@ -1,6 +1,6 @@
 name: smdh
-description: A sample command-line application.
-version: 1.0.0
+description: Library for SMDH file format
+version: 0.1.0
 repository: https://github.com/phoenixr-codes/smdh
 
 environment:
