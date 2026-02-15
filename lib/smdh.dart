@@ -1,8 +1,9 @@
-// TODO: missing trailing zeroes on icons
+// TODO: get rid of magic numbers
 
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:collection/collection.dart';
+import 'package:smdh/icon.dart';
 
 bool _bitAt(int bytes, int position) {
   return ((bytes >> position) & 1) == 1;
@@ -261,7 +262,7 @@ class ApplicationSettings {
       );
 }
 
-typedef Icon = Uint8List;
+typedef Icon = MortonImage;
 
 class Smdh {
   // TODO: is it really in (major, minor) format?
@@ -283,8 +284,8 @@ class Smdh {
     required this.applicationSettings,
     required this.smallIcon,
     required this.largeIcon,
-  })  : assert(smallIcon.length == 0x480, "Invalid length for small icon"),
-        assert(largeIcon.length == 0x1200, "Invalid length for large icon");
+  })  : assert(smallIcon.size == 24, "Invalid size (${smallIcon.size}) for small icon"),
+        assert(largeIcon.size == 48, "Invalid size (${largeIcon.size}) for large icon");
 
   Smdh.parse(ByteData data) {
     final magicInData = [
@@ -410,10 +411,8 @@ class Smdh {
     );
 
     final bytes = data.buffer.asUint8List();
-    smallIcon =
-        Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList());
-    largeIcon =
-        Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList());
+    smallIcon = MortonImage(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList())));
+    largeIcon = MortonImage(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList())));
   }
 
   ByteData toByteData() {
@@ -532,13 +531,18 @@ class Smdh {
     data.setFloat32(0x2030, applicationSettings.optimalAnimationFrame);
     data.setUint32(0x2034, applicationSettings.cecID);
 
-    for (final (i, byte) in smallIcon.buffer.asUint8List().indexed) {
-      data.setUint8(0x2040 + i, byte);
-      if (i >= 0x480) throw 'Small icon is too large';
+    final smallIconData = smallIcon.buffer;
+    if (smallIconData.lengthInBytes > 0x480) throw 'Small icon is too large (${smallIconData .lengthInBytes} > ${0x480})';
+    for (int i = 0; i < smallIconData.lengthInBytes; i += 2) {
+      final bytes = smallIconData.getUint16(i);
+      data.setUint16(0x2040 + i, bytes);
     }
-    for (final (i, byte) in largeIcon.buffer.asUint8List().indexed) {
-      data.setUint8(0x24C0 + i, byte);
-      if (i >= 0x1200) throw 'Large icon is too large';
+
+    final largeIconData = largeIcon.buffer;
+    if (largeIconData.lengthInBytes > 0x1200) throw 'Large icon is too large (${largeIconData.lengthInBytes} > ${0x1200})';
+    for (int i = 0; i < largeIconData.lengthInBytes; i += 2) {
+      final bytes = largeIconData.getUint16(i);
+      data.setUint16(0x24C0 + i, bytes);
     }
 
     return data;
@@ -554,8 +558,8 @@ class Smdh {
       other.version == version &&
       MapEquality().equals(other.applicationTitles, applicationTitles) &&
       other.applicationSettings == applicationSettings &&
-      ListEquality().equals(other.smallIcon, smallIcon) &&
-      ListEquality().equals(other.largeIcon, largeIcon);
+      other.smallIcon == smallIcon &&
+      other.largeIcon == largeIcon;
 
   @override
   int get hashCode => Object.hash(
