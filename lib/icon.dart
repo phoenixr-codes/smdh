@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:collection/equality.dart';
+import 'package:collection/collection.dart';
 
 /// A 16-bit color.
 class Rgb565 {
@@ -103,6 +103,15 @@ class MortonImage {
     return Rgb565.fromInt(color);
   }
 
+  /// Set the RGB pixel at the given coordinate.
+  ///
+  /// The origin is the top left corner. Indices are zero-based.
+  void setPixelAt(int x, int y, Rgb565 pixel) {
+    (x, y) = (y, x);
+    final index = _memoryIndex(x, y);
+    buffer.setUint16(index * _bytesPerPixel, pixel.toInt(), endianness);
+  }
+
   int _memoryIndex(int x, int y) {
     final xWithinTile = x % tileSize;
     final yWithinTile = y % tileSize;
@@ -125,15 +134,6 @@ class MortonImage {
     final int index = (i - 1) + (j - 1) * tilesPerRow;
     assert (index >= 0);
     return index;
-  }
-
-  /// Set the RGB pixel at the given coordinate.
-  ///
-  /// The origin is the top left corner. Indices are zero-based.
-  void setPixelAt(int x, int y, Rgb565 pixel) {
-    (x, y) = (y, x);
-    final index = _memoryIndex(x, y);
-    buffer.setUint16(index * _bytesPerPixel, pixel.toInt(), endianness);
   }
 
   /// Returns the morton index within a tile.

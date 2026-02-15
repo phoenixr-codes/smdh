@@ -1,10 +1,34 @@
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
+import 'package:smdh/icon.dart';
 import 'package:smdh/smdh.dart';
 
+import 'large_icon.dart';
+import 'small_icon.dart';
+
+MortonImage imageForData(List<int> pixels) {
+  final buffer = ByteData(24 * 24 * 2);
+  final icon = MortonImage(buffer);
+  final size = sqrt(pixels.length);
+  int i = 0;
+  for (int x = 0; x < size; x++) {
+    for (int y = 0; y < size; y++) {
+      final rgb888 = pixels[i];
+      final r = (rgb888 >> 16) & 0xFF;
+      final g = (rgb888 >> 8) & 0xFF;
+      final b = rgb888 & 0xFF;
+      icon.setPixelAt(x, y, Rgb565.fromRgb888(r, g, b));
+      i++;
+    }
+  }
+  return icon;
+}
+
 void main() async {
-  final smallIcon = await File('smallIcon.jpg').readAsBytes();
-  final largeIcon = await File('largeIcon.jpg').readAsBytes();
+  final smallIcon = imageForData(smallIconData);
+  final largeIcon = imageForData(largeIconData);
   final Map<Language, ApplicationTitle> applicationTitles = {};
   for (final language in Language.values) {
     applicationTitles[language] = ApplicationTitle(
