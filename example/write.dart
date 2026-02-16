@@ -34,7 +34,7 @@ void main() async {
     applicationTitles[language] = ApplicationTitle(
       shortDescription: 'Hello in ${language.name}',
       longDescription: 'Hello in ${language.name}',
-      publisher: 'World',
+      publisher: '${language.name} world',
     );
   }
   final smdh = Smdh(
