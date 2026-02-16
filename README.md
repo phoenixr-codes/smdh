@@ -1,6 +1,9 @@
 # SMDH
 
-This Dart library can be used to work with [SMDH][] data.
+This Dart package can be used to work with [SMDH][] data. SMDH is a format used
+by the Nintendo 3DS for application and theme metadata.
+
+This project is not affiliated with Nintendo.
 
 ## References
 
