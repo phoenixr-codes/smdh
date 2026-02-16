@@ -537,16 +537,18 @@ class Smdh {
     data.setUint32(0x2034, applicationSettings.cecID);
 
     final smallIconData = smallIcon.buffer;
-    if (smallIconData.lengthInBytes > 0x480)
+    if (smallIconData.lengthInBytes > 0x480) {
       throw 'Small icon is too large (${smallIconData.lengthInBytes} > ${0x480})';
+    }
     for (int i = 0; i < smallIconData.lengthInBytes; i += 2) {
       final bytes = smallIconData.getUint16(i);
       data.setUint16(0x2040 + i, bytes);
     }
 
     final largeIconData = largeIcon.buffer;
-    if (largeIconData.lengthInBytes > 0x1200)
+    if (largeIconData.lengthInBytes > 0x1200) {
       throw 'Large icon is too large (${largeIconData.lengthInBytes} > ${0x1200})';
+    }
     for (int i = 0; i < largeIconData.lengthInBytes; i += 2) {
       final bytes = largeIconData.getUint16(i);
       data.setUint16(0x24C0 + i, bytes);
