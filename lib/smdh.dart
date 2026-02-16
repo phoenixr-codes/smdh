@@ -343,19 +343,20 @@ class Smdh {
 
     final regionSpecificGameAgeRatings = <RegionSpecificGameAgeRating>{};
     block = data.getUint16(0x2008, Endian.little);
-    // FIXME: is the order below correct?
     if (_bitAt(block, 0)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.cero);
     }
     if (_bitAt(block, 1)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.esrb);
     }
+    // Bit 2 is reserved.
     if (_bitAt(block, 3)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.usk);
     }
     if (_bitAt(block, 4)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.pegiGen);
     }
+    // Bit 5 is reserved.
     if (_bitAt(block, 6)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.pegiPrt);
     }
@@ -371,6 +372,7 @@ class Smdh {
     if (_bitAt(block, 10)) {
       regionSpecificGameAgeRatings.add(RegionSpecificGameAgeRating.cgsrr);
     }
+    // Remaining bits are reserved.
 
     final regionLockout = <RegionLockout>{};
     block = data.getUint32(0x2018, Endian.little);
