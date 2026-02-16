@@ -11,13 +11,4 @@ void main() {
               int.parse("000000", radix: 2), int.parse("11111", radix: 2))));
     });
   });
-
-  group("morton image", () {
-    final red = Rgb565(int.parse("11111", radix: 2), 0, 0);
-    final green = Rgb565(0, int.parse("111111", radix: 2), 0);
-    final blue = Rgb565(0, 0, int.parse("11111", radix: 2));
-    final black = Rgb565(0, 0, 0);
-
-    // TODO
-  });
 }
