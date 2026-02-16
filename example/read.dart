@@ -4,7 +4,7 @@ import 'package:smdh/icon.dart';
 import 'package:smdh/smdh.dart';
 
 /// Export SMDH icon to ppm file for easy inspection.
-String ppm(MortonImage image) {
+String ppm(SmdhIcon image) {
   String result = "P3\n${image.size} ${image.size}\n255\n";
   for (int x = 0; x < image.size; x++) {
     for (int y = 0; y < image.size; y++) {

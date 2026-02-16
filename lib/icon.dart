@@ -67,7 +67,7 @@ final _bytesPerPixel = 2;
 /// coordinate system and uses the Z-shaped coordinate system internally.
 ///
 /// See also: https://www.3dbrew.org/wiki/SMDH#Icon_graphics
-class MortonImage {
+class SmdhIcon {
   /// Low-level access to the underlying buffer.
   final ByteData buffer;
 
@@ -78,7 +78,7 @@ class MortonImage {
 
   /// The buffer must not have unrelated trailing data. All data is interpreted
   /// as image data.
-  MortonImage(this.buffer);
+  SmdhIcon(this.buffer);
 
   /// The amount of pixels in each direction.
   int get size => sqrt(pixels).floor();
@@ -155,7 +155,7 @@ class MortonImage {
 
   @override
   bool operator ==(Object other) {
-    if (other is! MortonImage) throw UnimplementedError();
+    if (other is! SmdhIcon) throw UnimplementedError();
     return ListEquality().equals(
         buffer.buffer.asUint16List(), other.buffer.buffer.asUint16List());
   }

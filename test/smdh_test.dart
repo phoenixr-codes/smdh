@@ -48,8 +48,8 @@ void main() {
 
   group('round trip', () {
     test('write and read', () async {
-      final smallIcon = MortonImage(ByteData(24 * 24 * 2));
-      final largeIcon = MortonImage(ByteData(48 * 48 * 2));
+      final smallIcon = SmdhIcon(ByteData(24 * 24 * 2));
+      final largeIcon = SmdhIcon(ByteData(48 * 48 * 2));
       final Map<Language, ApplicationTitle> applicationTitles = {};
       for (final language in Language.values) {
         applicationTitles[language] = ApplicationTitle(

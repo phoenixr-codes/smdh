@@ -262,7 +262,7 @@ class ApplicationSettings {
       );
 }
 
-typedef Icon = MortonImage;
+typedef Icon = SmdhIcon;
 
 class Smdh {
   // TODO: is it really in (major, minor) format?
@@ -411,8 +411,8 @@ class Smdh {
     );
 
     final bytes = data.buffer.asUint8List();
-    smallIcon = MortonImage(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList())));
-    largeIcon = MortonImage(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList())));
+    smallIcon = SmdhIcon(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList())));
+    largeIcon = SmdhIcon(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList())));
   }
 
   ByteData toByteData() {

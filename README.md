@@ -1,6 +1,6 @@
 # SMDH
 
-This Dart library can be used to work with [SMDH][] data. It has no dependencies.
+This Dart library can be used to work with [SMDH][] data.
 
 ## References
 

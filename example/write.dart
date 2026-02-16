@@ -8,9 +8,9 @@ import 'package:smdh/smdh.dart';
 import 'large_icon.dart';
 import 'small_icon.dart';
 
-MortonImage imageForData(List<int> pixels) {
+SmdhIcon imageForData(List<int> pixels) {
   final buffer = ByteData(24 * 24 * 2);
-  final icon = MortonImage(buffer);
+  final icon = SmdhIcon(buffer);
   final size = sqrt(pixels.length);
   int i = 0;
   for (int x = 0; x < size; x++) {
