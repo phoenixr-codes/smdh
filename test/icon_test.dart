@@ -1,6 +1,3 @@
-import 'dart:math';
-import 'dart:typed_data';
-
 import 'package:smdh/icon.dart';
 import 'package:test/test.dart';
 

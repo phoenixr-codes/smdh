@@ -1,16 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:smdh/icon.dart';
 import 'package:smdh/smdh.dart';
 import 'package:test/test.dart';
-
-Uint8List _fillZeros(Uint8List list, int length) {
-  final result = Uint8List(length);
-  for (final (i, byte) in list.indexed) {
-    result[i] = byte;
-  }
-  return result;
-}
 
 void main() {
   test("application title", () {
