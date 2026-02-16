@@ -118,7 +118,7 @@ class SmdhIcon {
     final tileIndex = _tileIndex(x, y);
     final mortonIndex = _mortonIndex(xWithinTile, yWithinTile);
     final index = tileSize * tileSize * tileIndex + mortonIndex;
-    assert (index >= 0);
+    assert(index >= 0);
     return index;
   }
 
@@ -132,7 +132,7 @@ class SmdhIcon {
     }
     final int tilesPerRow = (size / tileSize).round();
     final int index = (i - 1) + (j - 1) * tilesPerRow;
-    assert (index >= 0);
+    assert(index >= 0);
     return index;
   }
 
@@ -146,7 +146,7 @@ class SmdhIcon {
       index |= ((x >> i) & 1) << (2 * i);
       index |= ((y >> i) & 1) << (2 * i + 1);
     }
-    assert (index >= 0);
+    assert(index >= 0);
     return index;
   }
 

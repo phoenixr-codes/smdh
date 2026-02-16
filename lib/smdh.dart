@@ -286,8 +286,10 @@ class Smdh {
     required this.applicationSettings,
     required this.smallIcon,
     required this.largeIcon,
-  })  : assert(smallIcon.size == 24, "Invalid size (${smallIcon.size}) for small icon"),
-        assert(largeIcon.size == 48, "Invalid size (${largeIcon.size}) for large icon");
+  })  : assert(smallIcon.size == 24,
+            "Invalid size (${smallIcon.size}) for small icon"),
+        assert(largeIcon.size == 48,
+            "Invalid size (${largeIcon.size}) for large icon");
 
   Smdh.parse(ByteData data) {
     final magicInData = [
@@ -413,8 +415,10 @@ class Smdh {
     );
 
     final bytes = data.buffer.asUint8List();
-    smallIcon = SmdhIcon(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList())));
-    largeIcon = SmdhIcon(ByteData.sublistView(Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList())));
+    smallIcon = SmdhIcon(ByteData.sublistView(
+        Uint8List.fromList(bytes.getRange(0x2040, 0x2040 + 0x480).toList())));
+    largeIcon = SmdhIcon(ByteData.sublistView(
+        Uint8List.fromList(bytes.getRange(0x24C0, 0x24C0 + 0x1200).toList())));
   }
 
   ByteData toByteData() {
@@ -533,14 +537,16 @@ class Smdh {
     data.setUint32(0x2034, applicationSettings.cecID);
 
     final smallIconData = smallIcon.buffer;
-    if (smallIconData.lengthInBytes > 0x480) throw 'Small icon is too large (${smallIconData .lengthInBytes} > ${0x480})';
+    if (smallIconData.lengthInBytes > 0x480)
+      throw 'Small icon is too large (${smallIconData.lengthInBytes} > ${0x480})';
     for (int i = 0; i < smallIconData.lengthInBytes; i += 2) {
       final bytes = smallIconData.getUint16(i);
       data.setUint16(0x2040 + i, bytes);
     }
 
     final largeIconData = largeIcon.buffer;
-    if (largeIconData.lengthInBytes > 0x1200) throw 'Large icon is too large (${largeIconData.lengthInBytes} > ${0x1200})';
+    if (largeIconData.lengthInBytes > 0x1200)
+      throw 'Large icon is too large (${largeIconData.lengthInBytes} > ${0x1200})';
     for (int i = 0; i < largeIconData.lengthInBytes; i += 2) {
       final bytes = largeIconData.getUint16(i);
       data.setUint16(0x24C0 + i, bytes);
