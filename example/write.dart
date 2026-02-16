@@ -38,7 +38,7 @@ void main() async {
     );
   }
   final smdh = Smdh(
-    version: (1, 0),
+    version: 0,
     applicationTitles: applicationTitles,
     applicationSettings: ApplicationSettings(
       regionSpecificGameAgeRatings: {},

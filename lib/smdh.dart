@@ -265,8 +265,10 @@ class ApplicationSettings {
 typedef Icon = SmdhIcon;
 
 class Smdh {
-  // TODO: is it really in (major, minor) format?
-  late (int, int) version;
+  /// The format version of SMDH to use.
+  ///
+  /// This is usually 0.
+  late int version;
 
   late Map<Language, ApplicationTitle> applicationTitles;
 
@@ -298,9 +300,7 @@ class Smdh {
       throw Exception('Invalid magic file header ($magicInData != $magic)');
     }
 
-    final versionMajor = data.getUint8(0x4);
-    final versionMinor = data.getUint8(0x5);
-    version = (versionMinor, versionMajor);
+    version = data.getUint16(0x4);
 
     applicationTitles = {};
     for (final (i, language) in Language.values.indexed) {
@@ -423,8 +423,7 @@ class Smdh {
     data.setUint8(0x1, magic[1]);
     data.setUint8(0x2, magic[2]);
     data.setUint8(0x3, magic[3]);
-    data.setUint8(0x4, version.$2);
-    data.setUint8(0x5, version.$1);
+    data.setUint16(0x4, version);
 
     applicationTitles.forEach((language, applicationTitle) {
       final offset = 0x8 + 0x200 * language.index;
