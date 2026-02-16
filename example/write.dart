@@ -9,9 +9,9 @@ import 'large_icon.dart';
 import 'small_icon.dart';
 
 SmdhIcon imageForData(List<int> pixels) {
-  final buffer = ByteData(24 * 24 * 2);
+  final size = sqrt(pixels.length).round();
+  final buffer = ByteData(size * size * 2);
   final icon = SmdhIcon(buffer);
-  final size = sqrt(pixels.length);
   int i = 0;
   for (int x = 0; x < size; x++) {
     for (int y = 0; y < size; y++) {
